@@ -2,7 +2,7 @@
 
 TradeForge Backend is a Spring Boot portfolio backend for market data, trade journaling, backtesting, and real-time job updates.
 
-Current milestone: **Milestone 2 - Database + Flyway**.
+Current milestone: **Milestone 3 - Authentication**.
 
 ## Tech Stack
 
@@ -83,6 +83,8 @@ DATABASE_USERNAME
 DATABASE_PASSWORD
 REDIS_HOST
 REDIS_PORT
+JWT_SECRET
+JWT_EXPIRATION_MS
 ```
 
 ## Milestone 1 Scope
@@ -120,3 +122,31 @@ Still not included:
 - Market data APIs
 - Trade journal APIs
 - Backtest execution
+
+## Milestone 3 Scope
+
+Included:
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/users/me`
+- BCrypt password hashing
+- JWT bearer-token authentication
+- Standard API error responses
+- Public Swagger and health endpoints
+- Protected default security rule for all other endpoints
+
+Example:
+
+```bash
+curl -X POST http://localhost:8080/api/auth/register \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"test@example.com","password":"Password123!"}'
+```
+
+Then call a protected endpoint:
+
+```bash
+curl http://localhost:8080/api/users/me \
+  -H "Authorization: Bearer <accessToken>"
+```
