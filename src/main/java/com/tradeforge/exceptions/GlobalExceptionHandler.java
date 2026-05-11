@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import jakarta.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,6 +27,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     ResponseEntity<ApiError> handleConflict(ConflictException ex, HttpServletRequest request) {
         return error(HttpStatus.CONFLICT, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    ResponseEntity<ApiError> handleNotFound(NotFoundException ex, HttpServletRequest request) {
+        return error(HttpStatus.NOT_FOUND, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    ResponseEntity<ApiError> handleConstraintViolation(ConstraintViolationException ex, HttpServletRequest request) {
+        return error(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
     @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})

@@ -2,7 +2,7 @@
 
 TradeForge Backend is a Spring Boot portfolio backend for market data, trade journaling, backtesting, and real-time job updates.
 
-Current milestone: **Milestone 3 - Authentication**.
+Current milestone: **Milestone 4 - Market Data API**.
 
 ## Tech Stack
 
@@ -148,5 +148,33 @@ Then call a protected endpoint:
 
 ```bash
 curl http://localhost:8080/api/users/me \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+## Milestone 4 Scope
+
+Included:
+
+- `POST /api/market-data/candles`
+- `POST /api/market-data/candles/bulk`
+- `GET /api/market-data/candles`
+- `GET /api/market-data/candles/latest`
+- Validation for required symbol/timeframe, candle time, positive OHLC, non-negative volume, and high/low range
+- Duplicate-safe bulk candle imports
+- Redis latest-candle cache using `latest-candle:{symbol}:{timeframe}`
+
+Example:
+
+```bash
+curl -X POST http://localhost:8080/api/market-data/candles \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer <accessToken>" \
+  -d '{"symbol":"MNQ","timeframe":"1m","candleTime":"2026-05-11T14:30:00Z","open":18000,"high":18025,"low":17990,"close":18010,"volume":120}'
+```
+
+Latest candle:
+
+```bash
+curl 'http://localhost:8080/api/market-data/candles/latest?symbol=MNQ&timeframe=1m' \
   -H "Authorization: Bearer <accessToken>"
 ```

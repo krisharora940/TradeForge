@@ -17,4 +17,6 @@ public interface MarketCandleRepository extends JpaRepository<MarketCandle, UUID
     );
 
     Optional<MarketCandle> findTopBySymbolAndTimeframeOrderByCandleTimeDesc(String symbol, String timeframe);
+
+    boolean existsBySymbolAndTimeframeAndCandleTime(String symbol, String timeframe, Instant candleTime);
 }
